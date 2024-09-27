@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Random Quote Generator</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #3a1c71, #d76d77, #ffaf7b);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      transition: background-color 1s ease;
+      overflow: hidden;
+    }
+
+    .quote-container {
+      background-color: rgba(255, 255, 255, 0.15);
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      text-align: center;
+      max-width: 600px;
+      width: 90%;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .quote {
+      font-size: 26px;
+      font-weight: 600;
+      margin-bottom: 25px;
+      opacity: 0;
+      transition: opacity 0.8s ease-in-out;
+    }
+
+    .author {
+      font-size: 20px;
+      color: #f0f0f0;
+      font-style: italic;
+      transition: opacity 0.8s ease-in-out;
+    }
+
+    button {
+      background-color: #ff5c5c;
+      border: none;
+      color: white;
+      padding: 15px 30px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 20px;
+      margin-top: 25px;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: background-color 0.5s, transform 0.3s ease-in-out;
+    }
+
+    button:hover {
+      background-color: #ff3333;
+      transform: scale(1.1);
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+      100% {
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="quote-container">
+    <div class="quote" id="quote">
+      "The only way to do great work is to love what you do."
+    </div>
+    <div class="author" id="author">- Steve Jobs</div>
+    <button onclick="generateQuote()">New Quote</button>
+  </div>
+
+  <script>
+    const quotes = [
+      {
+        quote: "The only way to do great work is to love what you do.",
+        author: "Steve Jobs"
+      },
+      {
+        quote: "Believe you can and you're halfway there.",
+        author: "Theodore Roosevelt"
+      },
+      {
+        quote: "Success is not final, failure is not fatal: It is the courage to continue that counts.",
+        author: "Winston Churchill"
+      },
+      {
+        quote: "The future belongs to those who believe in the beauty of their dreams.",
+        author: "Eleanor Roosevelt"
+      },
+      {
+        quote: "Happiness is not something ready-made. It comes from your own actions.",
+        author: "Dalai Lama"
+      },
+      {
+        quote: "You miss 100% of the shots you don't take.",
+        author: "Wayne Gretzky"
+      },
+      {
+        quote: "Life is what happens when you're busy making other plans.",
+        author: "John Lennon"
+      },
+      {
+        quote: "The purpose of our lives is to be happy.",
+        author: "Dalai Lama"
+      },
+      {
+        quote: "Get busy living or get busy dying.",
+        author: "Stephen King"
+      },
+      {
+        quote: "You have within you right now, everything you need to deal with whatever the world can throw at you.",
+        author: "Brian Tracy"
+      },
+      {
+        quote: "Believe in yourself and all that you are. Know that there is something inside you that is greater than any obstacle.",
+        author: "Christian D. Larson"
+      },
+      {
+        quote: "The only limit to our realization of tomorrow will be our doubts of today.",
+        author: "Franklin D. Roosevelt"
+      },
+      {
+        quote: "Act as if what you do makes a difference. It does.",
+        author: "William James"
+      },
+      {
+        quote: "Success usually comes to those who are too busy to be looking for it.",
+        author: "Henry David Thoreau"
+      },
+      {
+        quote: "Don’t watch the clock; do what it does. Keep going.",
+        author: "Sam Levenson"
+      },
+      {
+        quote: "The best way to predict the future is to create it.",
+        author: "Peter Drucker"
+      },
+      {
+        quote: "You only live once, but if you do it right, once is enough.",
+        author: "Mae West"
+      },
+      {
+        quote: "In the end, we only regret the chances we didn't take.",
+        author: "Lewis Carroll"
+      },
+      {
+        quote: "It does not matter how slowly you go as long as you do not stop.",
+        author: "Confucius"
+      },
+      {
+        quote: "Everything you’ve ever wanted is on the other side of fear.",
+        author: "George Addair"
+      },
+      {
+        quote: "Opportunities don't happen, you create them.",
+        author: "Chris Grosser"
+      },
+      {
+        quote: "Dream big and dare to fail.",
+        author: "Norman Vaughan"
+      },
+      {
+        quote: "What lies behind us and what lies before us are tiny matters compared to what lies within us.",
+        author: "Ralph Waldo Emerson"
+      },
+      {
+        quote: "The only way to achieve the impossible is to believe it is possible.",
+        author: "Charles Kingsleigh"
+      },
+      {
+        quote: "Success is walking from failure to failure with no loss of enthusiasm.",
+        author: "Winston Churchill"
+      },
+      {
+        quote: "Your time is limited, don't waste it living someone else's life.",
+        author: "Steve Jobs"
+      },
+      {
+        quote: "If you want to lift yourself up, lift up someone else.",
+        author: "Booker T. Washington"
+      },
+      {
+        quote: "What we think, we become.",
+        author: "Buddha"
+      },
+      {
+        quote: "The mind is everything. What you think you become.",
+        author: "Buddha"
+      },
+      {
+        quote: "You are never too old to set another goal or to dream a new dream.",
+        author: "C.S. Lewis"
+      },
+      {
+        quote: "Everything has beauty, but not everyone sees it.",
+        author: "Confucius"
+      },
+      {
+        quote: "It is never too late to be what you might have been.",
+        author: "George Eliot"
+      },
+      {
+        quote: "The only real mistake is the one from which we learn nothing.",
+        author: "Henry Ford"
+      },
+      {
+        quote: "Life is either a daring adventure or nothing at all.",
+        author: "Helen Keller"
+      },
+      {
+        quote: "The best revenge is massive success.",
+        author: "Frank Sinatra"
+      },
+      {
+        quote: "Do what you can, with what you have, where you are.",
+        author: "Theodore Roosevelt"
+      },
+      {
+        quote: "The journey of a thousand miles begins with one step.",
+        author: "Lao Tzu"
+      },
+      {
+        quote: "Life is 10% what happens to us and 90% how we react to it.",
+        author: "Charles R. Swindoll"
+      },
+      {
+        quote: "To live will be an awfully big adventure.",
+        author: "J.M. Barrie"
+      },
+      {
+        quote: "You must be the change you wish to see in the world.",
+        author: "Mahatma Gandhi"
+      },
+      {
+        quote: "Success is how high you bounce when you hit bottom.",
+        author: "George S. Patton"
+      },
+      {
+        quote: "Keep your face always toward the sunshine—and shadows will fall behind you.",
+        author: "Walt Whitman"
+      }
+    ];
+
+    function generateQuote() {
+      const quoteElement = document.getElementById("quote");
+      const authorElement = document.getElementById("author");
+
+      // Fade out the current quote
+      quoteElement.style.opacity = 0;
+      authorElement.style.opacity = 0;
+
+      setTimeout(() => {
+        const randomIndex = Math.floor(Math.random() * quotes.length);
+        const quote = quotes[randomIndex];
+
+        // Update quote and author
+        quoteElement.textContent = `"${quote.quote}"`;
+        authorElement.textContent = `- ${quote.author}`;
+
+        // Fade in the new quote and author
+        quoteElement.style.opacity = 1;
+        authorElement.style.opacity = 1;
+// Fade in the new quote and author
+        quoteElement.style.opacity = 1;
+        authorElement.style.opacity = 1;
+      }, 800); // Match the timeout with the fade-out duration
+    }
+
+    // Initialize with a random quote
+    generateQuote();
+  </script>
+</body>
+</html>

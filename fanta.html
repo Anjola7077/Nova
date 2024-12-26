@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Fanta - Refresh with Flavor!</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Global Styles */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            scroll-behavior: smooth;
+        }
+        header {
+            background-color: #ff5e00;
+            color: white;
+            padding: 1rem 0;
+            text-align: center;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem;
+            background-color: #ffebc4;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        nav ul {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        nav a {
+            color: #ff5e00;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 0.4rem;
+            transition: all 0.3s ease-in-out;
+        }
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: #ff5e00;
+            transition: all 0.3s ease;
+        }
+
+        /* Animation for when menu is opened */
+        .hamburger.open div:nth-child(1) {
+            transform: rotate(45deg) translateY(8px);
+        }
+        .hamburger.open div:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.open div:nth-child(3) {
+            transform: rotate(-45deg) translateY(-8px);
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+                flex-direction: column;
+                gap: 1rem;
+                position: absolute;
+                background-color: #ffebc4;
+                width: 100%;
+                top: 60px;
+                left: 0;
+                padding: 1rem 0;
+            }
+
+            nav ul.show {
+                display: flex;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+        }
+
+        /* Hero Section */
+        #hero {
+            height: 100vh;
+            background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_s-wYURXBCUV5tumfckW4E_SqYYHjirJsKHhFYOckcQMIhP9IMRiVQHU&s') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            position: relative;
+            /* filter: blur(3px); */ /* Removed blur */
+        }
+        #hero h1 {
+            font-size: 3rem;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+        }
+        #hero p {
+            font-size: 1.5rem;
+            margin: 1rem 0;
+        }
+        #hero .cta-buttons {
+            margin-top: 2rem;
+        }
+        .cta-buttons a {
+            text-decoration: none;
+            padding: 1rem 2rem;
+            background-color: #ffc800;
+            color: #ff5e00;
+            font-weight: bold;
+            border-radius: 30px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .cta-buttons a:hover {
+            background-color: white;
+            transform: translateY(-5px);
+        }
+
+        /* Flavors Section */
+        #flavors {
+            padding: 4rem 2rem;
+            text-align: center;
+            background-color: #f7f7f7;
+        }
+        .flavor-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+        }
+        .flavor-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 1rem;
+            width: 200px;
+            transition: transform 0.3s ease;
+        }
+        .flavor-card img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+        .flavor-card:hover {
+            transform: scale(1.05);
+        }
+
+        /* Promotions Section */
+        #promotions {
+            padding: 4rem 2rem;
+            background-color: #ff5e00;
+            color: white;
+            text-align: center;
+        }
+        .promotion-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+        }
+        .promo-card {
+            width: 200px;
+            background-color: #fff;
+            color: #ff5e00;
+            padding: 1rem;
+            border-radius: 15px;
+            transition: transform 0.3s;
+        }
+        .promo-card:hover {
+            transform: scale(1.05);
+        }
+        .promo-card img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        /* Our Story Section */
+        #story {
+            padding: 4rem 2rem;
+            background-color: #f7f7f7;
+            text-align: center;
+        }
+        .story-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        .timeline-event {
+            background-color: #ffc800;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.6s ease;
+        }
+        .timeline-event.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .timeline-event h3 {
+            font-size: 1.5rem;
+            color: #ff5e00;
+        }
+        .timeline-event p {
+            font-size: 1rem;
+            color: #333;
+        }
+
+        /* Merchandise Section */
+        #merchandise {
+            padding: 4rem 2rem;
+            background-color: #ffebc4;
+            text-align: center;
+        }
+        .merch-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+        }
+        .merch-item {
+            width: 150px;
+            background-color: white;
+            padding: 1rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        .merch-item:hover {
+            transform: scale(1.1);
+        }
+        .merch-item img {
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #ff5e00;
+            color: white;
+            text-align: center;
+            padding: 2rem 1rem;
+        }
+        footer .footer-links a {
+            color: white;
+            margin: 0 1rem;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .newsletter {
+            margin-top: 1rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+        .newsletter input {
+            padding: 0.5rem;
+            border-radius: 30px;
+            border: none;
+        }
+        .newsletter button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 30px;
+            background-color: white;
+            color: #ff5e00;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .newsletter button:hover {
+            background-color: #ffc800;
+        }
+
+        /* Social Media Icons */
+        .social-links {
+            margin: 1rem 0;
+        }
+
+        .social-icon {
+            color: white;
+            margin: 0 1rem;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .social-icon:hover {
+            color: #ffc800;
+        }
+
+        /* Fade-in animation for sections */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<header>
+    <img src="https://1000logos.net/wp-content/uploads/2019/01/Fanta-Logo-2008-2010.png" alt="Fanta Logo" style="width: 150px;">
+</header>
+<nav>
+    <div class="hamburger">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <ul>
+        <li><a href="#hero">Home</a></li>
+        <li><a href="#flavors">Flavors</a></li>
+        <li><a href="#promotions">Promotions</a></li>
+        <li><a href="#story">Our Story</a></li>
+        <li><a href="#merchandise">Merchandise</a></li>
+    </ul>
+</nav>
+
+<!-- Hero Section -->
+<section id="hero">
+    <div>
+        <h1>Refresh with Flavor!</h1>
+        <p>Explore our bold and vibrant flavors.</p>
+        <div class="cta-buttons">
+            <a href="#flavors">Explore Flavors</a>
+            <a href="#">Find a Store</a>
+        </div>
+    </div>
+</section>
+
+<!-- Flavors Section -->
+<section id="flavors">
+    <h2>Our Flavors</h2>
+    <div class="flavor-grid">
+        <div class="flavor-card">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8vrOluekBVwXLBCtvdmkNb-bVhlbfF0X1B55nIxw2Xw&s" alt="Fanta Orange">
+            <p>Fanta Orange</p>
+        </div>
+        <div class="flavor-card">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRT3_AogNv7-_QBxC7FOkI1-VsJjBHb_WNs849i0_KUKg&s" alt="Fanta Grape">
+            <p>Fanta Grape</p>
+        </div>
+        <div class="flavor-card">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzKKWGAOa66fJQwfvuSr73QXUCM3nhLo2UBc3Dvo4W-w&s" alt="Fanta Strawberry">
+            <p>Fanta Strawberry</p>
+        </div>
+        <div class="flavor-card">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsEO1_f0qHUoq2lMk80gTyVAy4NgfExJwoqtGuLpftQA&s" alt="Fanta Pineapple">
+            <p>Fanta Pineapple</p>
+        </div>
+        <div class="flavor-card">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOtaiIvHUFLS6F6R0IA6DmCxGdFIuHyQQ4m1-6bWG9gw&s" alt="Fanta Peach">
+            <p>Fanta Peach</p>
+        </div>
+        <div class="flavor-card">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSzkeU60STKzY58SyG1McqyUYRqAoSM_EVsieTJHTFcA&s" alt="Fanta Berry">
+            <p>Fanta Berry</p>
+        </div>
+        <div class="flavor-card">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTl0oDwQq93SegtHUuVU5jeR3Z3HTadpHlEUKsofG9i5zS4xk1M_dAWVg25&s=10" alt="Fanta Mango">
+            <p>Fanta Mango</p>
+        </div>
+        <div class="flavor-card">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7EFK3Vt3CLJWWD2j6Cp1av-_JLbcMFJ5-A4RVhvhG9w&s" alt="Fanta Green Apple">
+            <p>Fanta Green Apple</p>
+        </div>
+    </div>
+</section>
+
+<!-- Promotions Section -->
+<section id="promotions">
+    <h2>Current Promotions</h2>
+    <div class="promotion-grid">
+        <div class="promo-card">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRczrIxCcSnKZYVExqNmDm92GgiEQmnTIBF8A&s" alt="Limited Edition Flavor">
+            <p>Try our limited-edition summer flavors!</p>
+        </div>
+        <div class="promo-card">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuL01cx8pyjo8gVWCV1Rm2AcDP3lYp_9O04_yNgbIrubJmiVcqh63Efyrq&s=10" alt="Special Giveaway">
+            <p>Enter to win a Fanta-branded skateboard!</p>
+        </div>
+    </div>
+</section>
+
+<!-- Our Story Section -->
+<section id="story">
+    <h2>Our Story</h2>
+    <div class="story-timeline">
+        <div class="timeline-event">
+            <h3>1940</h3>
+            <p>The Fanta journey begins with its first bottle.</p>
+        </div>
+        <div class="timeline-event">
+            <h3>1970s</h3>
+            <p>Fanta becomes a household name with vibrant new flavors.</p>
+        </div>
+        <div class="timeline-event">
+            <h3>1990s</h3>
+            <p>Fanta introduces exciting advertising campaigns that capture the essence of fun.</p>
+        </div>
+        <div class="timeline-event">
+            <h3>Today</h3>
+            <p>Fanta is loved around the world with more than 100 different flavors globally!</p>
+        </div>
+    </div>
+</section>
+
+<!-- Merchandise Section -->
+<section id="merchandise">
+    <h2>Get Your Fanta Merchandise</h2>
+    <div class="merch-grid">
+        <div class="merch-item">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcocEWbfHxLDNjw8acocitPDjYXOVjU8wBWMZBz1eYLdxWEF-QztL9SXGR&s=10" alt="Fanta T-Shirt">
+            <p>Fanta T-Shirt</p>
+        </div>
+        <div class="merch-item">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbITB2ynrAOWnyP0dqLy6Q9dEqvr4mWB7Q935YoU9mddMmuuG8BDNe_r4&s=10" alt="Fanta Water Bottle">
+            <p>Fanta Water Bottle</p>
+        </div>
+        <div class="merch-item">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRN4nQY5sNehxlLYyMt1MA9MmTiBs9td6ZTRu9SmJZ55g&s" alt="Fanta Cap">
+            <p>Fanta Cap</p>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <p>&copy; 2024 Fanta. All Rights Reserved.</p>
+    <div class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Contact Us</a>
+    </div>
+    <div class="social-links">
+        <a href="https://facebook.com" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://twitter.com" class="social-icon"><i class="fab fa-twitter"></i></a>
+        <a href="https://instagram.com" class="social-icon"><i class="fab fa-instagram"></i></a>
+    </div>
+    <div class="newsletter">
+        <input type="email" placeholder="Enter your email for updates">
+        <button>Subscribe</button>
+    </div>
+</footer>
+
+<!-- JavaScript for Story Animation & Hamburger Menu -->
+<script>
+    // Timeline animation for the 'Our Story' section
+    const timelineEvents = document.querySelectorAll('.timeline-event');
+
+    const revealTimelineEvents = () => {
+        timelineEvents.forEach(event => {
+            const eventPosition = event.getBoundingClientRect().top;
+            const screenPosition = window.innerHeight / 1.2;
+            if (eventPosition < screenPosition) {
+                event.classList.add('visible');
+            }
+        });
+    };
+
+    window.addEventListener('scroll', revealTimelineEvents);
+
+    // JavaScript for Hamburger Menu
+    const hamburger = document.querySelector('.hamburger');
+    const navMenu = document.querySelector('nav ul');
+
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('open');
+        navMenu.classList.toggle('show');
+    });
+
+    // Reveal sections on scroll
+    const sections = document.querySelectorAll('section');
+
+    const revealSections = () => {
+        sections.forEach(section => {
+            const sectionPosition = section.getBoundingClientRect().top;
+            const screenPosition = window.innerHeight / 1.2;
+            if (sectionPosition < screenPosition) {
+                section.classList.add('visible');
+            }
+        });
+    };
+
+    window.addEventListener('scroll', revealSections);
+</script>
+
+</body>
+</html>
